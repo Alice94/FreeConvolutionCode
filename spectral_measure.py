@@ -92,7 +92,7 @@ class spectral_measure:
   ##### Transforms (Cauchy, R, S, T, and their inverses) #####
   
   # Setting up the computation of the Cauchy transform (and its derivative) via a discretization of the integral with trapezoidal quadrature rule
-  # Convergese exponentially fast in N (number of quadrature points) is the measure has sqrt-decay at the boundary
+  # Converges exponentially fast in the number of quadrature points if the measure has sqrt-decay at the boundary
   # The (possible) atoms are considered separately (Cauchy transform is explicitly known for the atomic part)  
   def set_G(self, N):
     if (hasattr(self, "density")):
@@ -110,7 +110,7 @@ class spectral_measure:
       self.G_prime = lambda z: - sum(self.weights / (z - self.atoms)**2)
   
   # Setting up the computation of the T-transform (and its derivative) via a discretization of the integral with trapezoidal quadrature rule
-  # Convergese exponentially fast in N (number of quadrature points) is the measure has sqrt-decay at the boundary
+  # Converges exponentially fast in N (number of quadrature points) if the measure has sqrt-decay at the boundary
   # The (possible) atoms are considered separately (T-transform is explicitly known for the atomic part)      
   def set_T(self, N):
     if (hasattr(self, "density")):

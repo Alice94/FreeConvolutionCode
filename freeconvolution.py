@@ -81,12 +81,12 @@ def free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
     mu1.set_G(N1)
   if (not hasattr(mu1, "G_inverse")):
     print("-- Setting up G_inverse for mu1")
-    mu1.set_G_inverse(N1, r_A)
+    mu1.set_G_inverse(N, r_A) # This was N1
     Gamma1 = mu1.image_circle
     Gamma1 = curves.curve(len(Gamma1)-1, Gamma1)
   else:
-    Gamma1 = curves.circle(r_A, N1)
-    for i in range(N1+1):
+    Gamma1 = curves.circle(r_A, N) # This was N1
+    for i in range(N+1): # This was N1
       Gamma1.discretization[i] = mu1.G_tilde(Gamma1.discretization[i])
       
   if ((not hasattr(mu2, "G")) or (not hasattr(mu2, "G_prime"))):
@@ -94,12 +94,12 @@ def free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
     mu2.set_G(N2)
   if (not hasattr(mu2, "G_inverse")):
     print("-- Setting up G_inverse for mu2")
-    mu2.set_G_inverse(N2, r_A)
+    mu2.set_G_inverse(N, r_A)
     Gamma2 = mu2.image_circle
     Gamma2 = curves.curve(len(Gamma2)-1, Gamma2)
   else:
-    Gamma2 = curves.circle(r_A, N2)
-    for i in range(N2+1):
+    Gamma2 = curves.circle(r_A, N)
+    for i in range(N+1):
       Gamma2.discretization[i] = mu2.G_tilde(Gamma2.discretization[i])
       
   # STEP 2: Computing the support of mu

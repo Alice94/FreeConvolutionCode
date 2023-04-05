@@ -21,7 +21,7 @@ m = 20 # number of coefficients to consider in the power series expansion (last 
 epsilon = 0.05
 
 # Free additive convolution
-[a_sum, b_sum, t, approx_mu] = freeconvolution.free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, 1)
+[a_sum, b_sum, t, approx_mu, muplus] = freeconvolution.free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, 1)
 
 # Random matrices corresponding to the input measures
 matrix_size = 1000
@@ -38,6 +38,11 @@ plt.plot(t, approx_mu * matrix_size * (b_sum - a_sum) / bin_number)
 plt.hist(eigenvalues, bins = bin_number)
 figure = plt.gcf()
 figure.set_size_inches(16, 12)
+plt.show()
+plt.figure()
+mu1.plot('b', 'mu1')
+mu2.plot('g', 'mu2')
+muplus.plot('r', 'sum')
 plt.show()
 
 del(mu1)

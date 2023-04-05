@@ -8,10 +8,10 @@ from random import choices
 # Set up parameters
 do_plots = 1
 epsilon = 0.05
-matrix_size = 500
+matrix_size = 5000
 bin_number = int(100)
 
-for n_example in range(0, 4):
+for n_example in range(0, 5):
   
   mu1 = sm.spectral_measure()
   mu2 = sm.spectral_measure()
@@ -101,13 +101,11 @@ for n_example in range(0, 4):
   
   
 
-  [a_prod, b_prod, t, approx_mu] = freeconvolution.free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots)
+  [a_prod, b_prod, t, approx_mu, mutimes] = freeconvolution.free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots)
   plt.subplot(4, 3, 10)
-  
-  plt.plot(t, numpy.minimum(1,abs(approx_mu))*matrix_size*(b_prod-a_prod)/bin_number)
-  plt.plot(a_prod, 0, 'ro')
-  plt.plot(b_prod, 0, 'ro')
-  plt.hist(eigenvalues, bins = bin_number)
+  (counts, bins) = numpy.histogram(eigenvalues, bins=bin_number)
+  plt.hist(bins[:-1], bins, weights=bin_number / (matrix_size * (mutimes.b - mutimes.a)) * counts)
+  plt.plot(t, approx_mu, 'r')
   
   plt.subplot(4, 3, 11)
   plt.plot(t, abs(approx_mu), 'r')
@@ -115,7 +113,7 @@ for n_example in range(0, 4):
   figure = plt.gcf() # get current figure
   figure.set_size_inches(16, 12)
   plt.savefig(name, dpi=10000)
-  plt.show()
+  # ~ plt.show()
   
   del(mu1)
   del(mu2)

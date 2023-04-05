@@ -8,10 +8,10 @@ from random import choices
 # Set up parameters
 do_plots = 1
 epsilon = 0.05
-matrix_size = 5000
+matrix_size = 5000 
 bin_number = int(50)
 
-for n_example in range(0, 10):
+for n_example in range(0, 10): 
   
   mu1 = sm.spectral_measure()
   mu2 = sm.spectral_measure()
@@ -159,7 +159,7 @@ for n_example in range(0, 10):
     mu2.set_discrete(points, weights)
     N1 = 400
     N2 = 4000
-    N = 400
+    N = 4000
     m = 10
     name = "semicircle+discrete.eps"
     A1 = mu1.get_random_matrix(matrix_size)
@@ -170,7 +170,7 @@ for n_example in range(0, 10):
   
   print ("-------- Example ", n_example+1, " ----------\n")
 
-  [a_sum, b_sum, t, approx_mu] = freeconvolution.free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots)
+  [a_sum, b_sum, t, approx_mu, muplus] = freeconvolution.free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots)
   
   if (n_example == 0):
     plt.subplot(4, 3, 10)
@@ -180,8 +180,9 @@ for n_example in range(0, 10):
     plt.semilogy(t, abs(approx_mu - true_mu))
   else:
     plt.subplot(4, 3, 10)
-    plt.plot(t, approx_mu*matrix_size*(b_sum-a_sum)/bin_number)
-    plt.hist(eigenvalues, bins = bin_number)
+    (counts, bins) = numpy.histogram(eigenvalues, bins=bin_number)
+    plt.hist(bins[:-1], bins, weights=bin_number / (matrix_size * (muplus.b - muplus.a)) * counts)
+    plt.plot(t, approx_mu, 'r')
     
   if (n_example == 2 or n_example == 3 or n_example == 7):
     print(" ------------- ", abs(exact_support + a_sum), abs(exact_support - b_sum), " ---------")

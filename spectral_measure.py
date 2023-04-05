@@ -60,7 +60,7 @@ class spectral_measure:
     # Uniform distribution on the interval [a, b]
     self.a = a
     self.b = b
-    self.density = lambda t: 1/(b-a) * numpy.ones(len(t))
+    self.density = lambda t: 1/(b-a) * numpy.ones(len(numpy.atleast_1d(t)))
     self.name = "uniform"
   
   def set_marchenko_pastur(self, param):
@@ -203,14 +203,14 @@ class spectral_measure:
   def joukowski_inverse(self, y): # returns the value inside the unit disk
     alpha = (self.b-self.a)/2
     beta = (self.b+self.a)/2
-    res = (y-beta)/alpha + numpy.sqrt(((y-beta)/alpha)**2-1)
+    res = (y-beta)/alpha + numpy.sqrt(((y.astype(complex)-beta)/alpha)**2-1)
     if numpy.isscalar(res):
-      if (abs(res) > 1):
+      if (abs(res) > 1+1e-10 or (abs(abs(res)-1) < 1e-10 and numpy.imag(res) < 0)):
         return 1/res
       else:
         return res
     for j in range(len(res)):
-      if (abs(res[j]) > 1):
+      if (abs(res[j]) > 1 + 1e-10 or (abs(abs(res[j])-1) < 1e-10 and numpy.imag(res[j]) < 0)):
         res[j] = 1/res[j]
     return res
       
@@ -243,8 +243,10 @@ class spectral_measure:
     # col = color (e.g. "b")
     # lab = label (e.g. "mu1")
     t = numpy.array(numpy.linspace(self.a, self.b, 1000))
+    t = numpy.linspace(0, numpy.pi, 53)
+    t = numpy.cos(t) * (self.b-self.a)/2 + (self.a+self.b)/2
     if (hasattr(self, "density")):
-      d = self.density(t)
+      d = list(map(self.density, t))
       if (hasattr(d, "__len__") == 0):
         d = numpy.ones(len(t)) * d
       plt.plot(t, d, col, label=lab)

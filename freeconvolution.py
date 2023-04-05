@@ -226,6 +226,12 @@ def free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
   v3 = numpy.array(v2 * numpy.concatenate((numpy.array([0]), 
   numpy.array(numpy.geomspace(1/r_C, (1/r_C)**(m-1), num=m-1)), 
   numpy.zeros(len(v2)-m))))
+  
+  g_coefficients = numpy.array(v3[1:m])
+  g_coefficients = numpy.transpose(g_coefficients)
+  density_sum = lambda t: -1/numpy.pi * numpy.imag(g_coefficients @ ((muplus.joukowski_inverse(t))**range(1,m)))  
+  muplus.set_density(density_sum)
+  
   v4 = scipy.fft.fft(v3)
   mu = v4[0:round(len(v2)/2)+1]
   
@@ -314,8 +320,69 @@ def free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
     Gamma1.plot('blue')
     Gamma2.plot('blue')
     Csum.plot('orange')
+    
+  if (do_plots == 2): # plot things for the mu1 only
+    plt.figure()
+    for i in [1,2,3]:
+      plt.subplot(1, 3, i)
+      plt.axis('equal')
+      plt.grid(True, which='both')
+      plt.axhline(y=0, color='k')
+      plt.axvline(x=0, color='k')
+      
+    plt.subplot(1, 3, 2)
+    J1C = curves.ellipse(mu1.a, mu1.b, r_A, N1)
+    J1C.plot('blue')
+    
+    plt.subplot(1, 3, 1)
+    unitCircle = curves.circle(1, N)
+    unitCircle.plot('red')
+    C = curves.circle(1-epsilon, N)
+    C.plot('blue')
+    
+    plt.subplot(1, 3, 3)
+    Gamma1.plot('blue')
+    
+  if (do_plots == 3):
+    plt.figure()
+    for i in [1,2,3]:
+      plt.subplot(1, 3, i)
+      plt.axis('equal')
+      plt.grid(True, which='both')
+      plt.axhline(y=0, color='k')
+      plt.axvline(x=0, color='k')
+    
+    unitCircle = curves.circle(1, N)  
+    plt.subplot(1, 3, 2)
+    plt.plot(a_sum, 0, 'ro')
+    plt.plot(numpy.real(b_sum), 0, 'ro')
+    GinvCsum.plot('orange')
+    JA.plot('green')
+    
+    plt.subplot(1, 3, 1)
+    unitCircle.plot('red')
+    # Plot A
+    A.plot('green')
+    # Plot Gamma
+    JinvGinvCsum.plot('orange')
+    
+    plt.subplot(1, 3, 3)
+    plt.plot(numpy.real(a_sum_cd), 0, 'ro')
+    plt.plot(numpy.real(b_sum_cd), 0, 'ro')
+    GA.plot('green')
+    Csum.plot('orange')
+    
+  if do_plots == 4:
+    plt.subplot(1, 2, 2)
+    plt.grid(True, which='both')
+    plt.axhline(y=0, color='k')
+    plt.axvline(x=0, color='k')
+    plt.plot(t, approx_mu, 'red', label = 'free sum')
+    mu1.plot('blue', 'mu_1')
+    mu2.plot('green', 'mu_2')
+    plt.legend()
 
-  return [a_sum, b_sum, t, approx_mu]
+  return [a_sum, b_sum, t, approx_mu, muplus]
   
 # Compute the free multiplicative convolution of two measures
 def free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):  
@@ -492,6 +559,11 @@ def free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
   approx_mu = approx_mu / t
   approx_mu = abs(approx_mu) 
   
+  t_coefficients = numpy.array(v3[1:m])
+  t_coefficients = numpy.transpose(t_coefficients)
+  density_prod = lambda t: 1/numpy.pi * numpy.imag(t_coefficients @ ((mutimes.joukowski_inverse(t))**range(1,m))) / t
+  mutimes.set_density(density_prod)
+  
   # Do all the plots
   if (do_plots == 1):
     
@@ -571,4 +643,4 @@ def free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
     Gamma2.plot('blue')
     Cprod.plot('orange')
 
-  return [a_prod, b_prod, t, approx_mu]
+  return [a_prod, b_prod, t, approx_mu, mutimes]

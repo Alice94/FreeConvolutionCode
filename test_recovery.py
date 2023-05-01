@@ -39,8 +39,8 @@ def test_recover_mu_from_G(mu, trueG, n_fourier_coefficients, n_discretization_p
 
 # Number of quadrature points, Fourier coefficients, radius
 n_fourier_coefficients = 40
-n_quadrature_points = 1000
-radius = 1.2
+n_quadrature_points = 3000
+radius = 1/(0.9)
 n_discretization_points = n_quadrature_points
 
 # Semicircle law

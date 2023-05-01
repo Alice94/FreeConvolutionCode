@@ -67,7 +67,7 @@ m = 20 # number of coefficients to consider in the power series expansion (last 
 epsilon = 0.02
 
 # Free additive convolution
-[a_sum, b_sum, t, approx_mu] = freeconvolution.free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, 1)
+[a_sum, b_sum, t, approx_mu, muplus] = freeconvolution.free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, 1)
 
 # Random matrices corresponding to the input measures
 matrix_size = 1000

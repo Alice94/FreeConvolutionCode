@@ -21,7 +21,7 @@ m = 20 # number of coefficients to consider in the power series expansion (last 
 epsilon = 0.05
 
 # Free multiplicative convolution
-[a_prod, b_prod, t, approx_mu] = freeconvolution.free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, 1)
+[a_prod, b_prod, t, approx_mu, muprod] = freeconvolution.free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, 1)
 
 # Random matrices corresponding to the input measures
 matrix_size = 1000
@@ -70,7 +70,7 @@ A = numpy.matmul(A1, A2)
 eigenvalues = scipy.linalg.eigvals(A)
 
 # Free multiplicative convolution
-[a_prod, b_prod, t, approx_mu] = freeconvolution.free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, 1)
+[a_prod, b_prod, t, approx_mu, muprod] = freeconvolution.free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, 1)
 
 # Plot, in the (4,3) figure, the histogram of the eigenvalues of A compared 
 # with the measure mu = mu1 x mu2 computed numerically

@@ -23,7 +23,6 @@ for n_example in range(0, 5):
     b2 = 3
     mu1.set_marchenko_pastur(param)
     mu2.set_uniform(a2, b2)
-    # ~ mu2.set_marchenko_pastur(param2)
     N1 = 400
     N2 = 400
     N = 4000
@@ -99,8 +98,6 @@ for n_example in range(0, 5):
     A = numpy.matmul(A1, A2)
     eigenvalues = scipy.linalg.eigvals(A)
   
-  
-
   [a_prod, b_prod, t, approx_mu, mutimes] = freeconvolution.free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots)
   plt.subplot(4, 3, 10)
   (counts, bins) = numpy.histogram(eigenvalues, bins=bin_number)

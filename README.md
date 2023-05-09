@@ -11,7 +11,7 @@ order for the theory to hold, the two measures need to have the following charac
 - Invertible Cauchy transform (for the additive case) or invertible T-transform (for the multiplicative case)
 
 These assumptions ensure that the resulting measure has a sqrt-behavior at the boundary and that its density 
-function is regular enough; see [the paper] for precise statements.
+function is regular enough; see [1] for precise statements.
 
 ### 2. Dependencies
 
@@ -32,7 +32,7 @@ See the scripts demo_sum.py and demo_product.py for examples, and the Jupyter no
 
 ### 5. References
 
-TODO
+[1] Alice Cortinovis and Lexing Ying. Computing free convolutions via contour integrals (2023). https://arxiv.org/abs/2305.01819
 
 ### 6. Contact
 

@@ -203,7 +203,7 @@ class spectral_measure:
   def joukowski_inverse(self, y): # returns the value inside the unit disk
     alpha = (self.b-self.a)/2
     beta = (self.b+self.a)/2
-    res = (y-beta)/alpha + numpy.sqrt(((y.astype(complex)-beta)/alpha)**2-1)
+    res = (y-beta)/alpha + numpy.sqrt((((numpy.array(y)).astype(complex)-beta)/alpha)**2-1)
     if numpy.isscalar(res):
       if (abs(res) > 1+1e-10 or (abs(abs(res)-1) < 1e-10 and numpy.imag(res) < 0)):
         return 1/res

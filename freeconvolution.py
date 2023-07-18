@@ -137,7 +137,7 @@ def free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
   r_B = min(min(abs(numpy.array(Gamma1.discretization))), min(abs(numpy.array(Gamma2.discretization))))
   r_B = min(r_B, min(abs(a_sum_cd), abs(b_sum_cd)))
   r_B = (1-epsilon) * r_B
-  Csum = curves.circle(r_B, N) # QUESTO E' UN BUG? Dovrebbe essere un cerchio unitario?
+  Csum = curves.circle(1, N)
   # Shrink the circle in order to get it inside the region where G is invertible
   for i in range(Csum.n_points+1):
     A = Csum.discretization[i] * r_B
@@ -229,7 +229,7 @@ def free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
   
   g_coefficients = numpy.array(v3[1:m])
   g_coefficients = numpy.transpose(g_coefficients)
-  density_sum = lambda t: -1/numpy.pi * numpy.imag(g_coefficients @ ((muplus.joukowski_inverse(t))**range(1,m)))  
+  density_sum = numpy.vectorize(lambda t: -1/numpy.pi * numpy.imag(g_coefficients @ ((muplus.joukowski_inverse(t))**range(1,m)))) 
   muplus.set_density(density_sum)
   
   v4 = scipy.fft.fft(v3)
@@ -386,7 +386,8 @@ def free_additive_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
   
 # Compute the free multiplicative convolution of two measures
 def free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):  
-  plt.figure()
+  if do_plots > 0:
+    plt.figure()
   # mu1, mu2 = input measures
   # N1 = quadrature points for G1, G1prime, G1inverse
   # N2 = quadrature points for G2, G2prime, G2inverse
@@ -460,7 +461,7 @@ def free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
   r_B = min(min(abs(numpy.array(Gamma1.discretization))), min(abs(numpy.array(Gamma2.discretization))))
   r_B = min(r_B, min(abs(a_prod_cd), abs(b_prod_cd)))
   r_B = (1-epsilon) * r_B
-  Cprod = curves.circle(1, N) # WAS r_B (BUG???)
+  Cprod = curves.circle(1, N)
   # Shrink the circle in order to get it inside the region where G is invertible
   for i in range(Cprod.n_points+1):
     A = Cprod.discretization[i] * r_B
@@ -561,7 +562,7 @@ def free_multiplicative_convolution(mu1, mu2, N1, N2, N, m, epsilon, do_plots):
   
   t_coefficients = numpy.array(v3[1:m])
   t_coefficients = numpy.transpose(t_coefficients)
-  density_prod = lambda t: 1/numpy.pi * numpy.imag(t_coefficients @ ((mutimes.joukowski_inverse(t))**range(1,m))) / t
+  density_prod = numpy.vectorize(lambda t: 1/numpy.pi * numpy.imag(t_coefficients @ ((mutimes.joukowski_inverse(t))**range(1,m))) / t)
   mutimes.set_density(density_prod)
   
   # Do all the plots
